@@ -1,3 +1,11 @@
+
+function passwordValidator(req, res, next) {
+    const passwordCheck = isValidPassword(req.body.password);
+    if (!passwordCheck.valid) {
+        return res.json({ status: false, message: passwordCheck.message });
+    }
+    next();
+}
 function isValidPassword(password) {
     if (typeof password !== 'string' || password.length < 8) {
         return { valid: false, message: 'Password must be at least 8 characters long.' };
@@ -10,5 +18,4 @@ function isValidPassword(password) {
     }
     return { valid: true };
 }
-
-module.exports = { isValidPassword };
+module.exports = passwordValidator;

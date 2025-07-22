@@ -1,16 +1,11 @@
 const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET;
 const { hashPassword, comparePassword } = require('./authHelpers');
-const { isValidPassword } = require('../validators/passwordValidator');
 
 let users = [];
 
 // to register user
 exports.registerUser = (req, res) => {
-    const passwordCheck = isValidPassword(req.body.password);
-    if (!passwordCheck.valid) {
-        return res.json({ status: false, message: passwordCheck.message });
-    }
     const exists = users.some(user => user.email === req.body.email);
 
     if (exists) {
