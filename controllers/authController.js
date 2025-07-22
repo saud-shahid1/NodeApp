@@ -1,11 +1,16 @@
 const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET;
 const { hashPassword, comparePassword } = require('./authHelpers');
+const { isValidPassword } = require('../validators/passwordValidator');
 
 let users = [];
 
 // to register user
 exports.registerUser = (req, res) => {
+    const passwordCheck = isValidPassword(req.body.password);
+    if (!passwordCheck.valid) {
+        return res.json({ status: false, message: passwordCheck.message });
+    }
     const exists = users.some(user => user.email === req.body.email);
 
     if (exists) {
@@ -37,12 +42,6 @@ exports.loginUser = (req, res) => {
 
 // to logout user
 exports.logoutUser = (req, res) => {
-    // Get token from Authorization header
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return res.status(401).json({ status: false, message: "No token provided." });
-    }
-    const token = authHeader.split(' ')[1];
     try {
         const decoded = jwt.verify(token, JWT_SECRET);
         // Remove user from array

@@ -2,11 +2,11 @@ require('dotenv').config();
 var express = require('express');
 const authRouter =  require('./routes/auth')
 var app = express();
-const port = 3000
+const port = 8000;
 
 app.use(express.json());
 
-app.use('/api', authRouter )
+app.use('/api/auth', authRouter);
 
 
 
