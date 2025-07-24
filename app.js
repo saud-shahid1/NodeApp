@@ -1,7 +1,9 @@
 require('dotenv').config();
-require('./dbConfig/db');
+process.env.DB_TYPE == 'mongo' ? require('./dbConfig/mongo') : require('./dbConfig/db')
 var express = require('express');
-const authRouter =  require('./routes/auth')
+const authRouter =  require('./routes/auth');
+
+
 var app = express();
 const port = 8000;
 
