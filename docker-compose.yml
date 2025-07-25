@@ -5,6 +5,7 @@ services:
     build: .
     ports:
       - "8000:8000"
+    env_file: .env
     environment:
       - MONGO_URL=mongodb://mongo:27017/authDB
       - MYSQL_HOST=mysql
